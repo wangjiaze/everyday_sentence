@@ -7,6 +7,15 @@ import { UserContext } from '../context/UserContext';
 import QuoteCard from './quotes/QuoteCard';
 import LoadingSpinner from './common/LoadingSpinner';
 import ThemeToggle from './common/ThemeToggle';
+import { Quote } from '../types/Quote';
+
+const gradientAnimation = `
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+`;
 
 const Screensaver: React.FC = () => {
   const { state, getRandomQuote, toggleFavorite } = useQuotes();
@@ -104,65 +113,83 @@ const Screensaver: React.FC = () => {
     }
   };
 
+  const getQuoteBackground = (quote: Quote) => {
+    // 根据语言或情感选择不同的渐变背景
+    if (quote.language === 'zh') {
+      return 'linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)';
+    } else if (quote.language === 'en') {
+      return 'linear-gradient(135deg, #134e5e, #71b280, #2c3e50)';
+    } else {
+      return 'linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b)';
+    }
+  };
+
   return (
-    <div 
-      className="screensaver"
-      style={{ 
-        backgroundColor: colors.background, 
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-      onClick={() => getRandomQuote()}
-    >
-      <div className="screensaver__controls" style={{
-        position: 'absolute',
-        top: '1rem',
-        right: '1rem',
-        zIndex: 10
-      }}>
-        <ThemeToggle currentMode={mode} onChange={setMode} />
-      </div>
+    <>
+      <style>{gradientAnimation}</style>
       
-      {state.isLoading ? (
-        <LoadingSpinner size="large" />
-      ) : state.currentQuote ? (
-        <QuoteCard 
-          quote={state.currentQuote} 
-          onFavoriteToggle={toggleFavorite}
-          onShare={handleShare}
-        />
-      ) : (
-        <motion.div 
-          className="screensaver__empty"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          style={{
-            textAlign: 'center',
-            maxWidth: '80%'
-          }}
-        >
-          <p style={{ fontSize: '1.25rem' }}>
-            Tap anywhere to see an inspiring quote
-          </p>
-        </motion.div>
-      )}
-      
-      <div className="screensaver__instructions" style={{
-        position: 'absolute',
-        bottom: '1rem',
-        left: 0,
-        right: 0,
-        textAlign: 'center',
-        fontSize: '0.875rem',
-        opacity: 0.7
-      }}>
-        <p>Tap to change quote</p>
+      <div 
+        className="screensaver"
+        style={{ 
+          background: state.currentQuote ? getQuoteBackground(state.currentQuote) : colors.background,
+          backgroundSize: '400% 400%',
+          animation: 'gradient 15s ease infinite',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+          transition: 'background 1.5s ease'
+        }}
+        onClick={() => getRandomQuote()}
+      >
+        <div className="screensaver__controls" style={{
+          position: 'absolute',
+          top: '1rem',
+          right: '1rem',
+          zIndex: 10
+        }}>
+          <ThemeToggle currentMode={mode} onChange={setMode} />
+        </div>
+        
+        {state.isLoading ? (
+          <LoadingSpinner size="large" />
+        ) : state.currentQuote ? (
+          <QuoteCard 
+            quote={state.currentQuote} 
+            onFavoriteToggle={toggleFavorite}
+            onShare={handleShare}
+          />
+        ) : (
+          <motion.div 
+            className="screensaver__empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            style={{
+              textAlign: 'center',
+              maxWidth: '80%'
+            }}
+          >
+            <p style={{ fontSize: '1.25rem' }}>
+              Tap anywhere to see an inspiring quote
+            </p>
+          </motion.div>
+        )}
+        
+        <div className="screensaver__instructions" style={{
+          position: 'absolute',
+          bottom: '1rem',
+          left: 0,
+          right: 0,
+          textAlign: 'center',
+          fontSize: '0.875rem',
+          opacity: 0.7
+        }}>
+          <p>Tap to change quote</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
