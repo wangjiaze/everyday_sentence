@@ -1,0 +1,22 @@
+/* src/styles/variables.css */
+:root {
+    /* Light Theme - Default */
+    --color-background: #ffffff;
+    --color-foreground: #1a1a1a;
+    --color-primary: #3498db;
+    --color-secondary: #2ecc71;
+    --color-accent: #e74c3c;
+    --color-muted: #f5f5f5;
+    --color-border: #e0e0e0;
+  }
+  
+  [data-theme="dark"] {
+    /* Dark Theme */
+    --color-background: #1a1a2e;
+    --color-foreground: #ffffff;
+    --color-primary: #3498db;
+    --color-secondary: #2ecc71;
+    --color-accent: #e74c3c;
+    --color-muted: #252525;
+    --color-border: #404040;
+  }

@@ -1,6 +1,8 @@
+// public/manifest.json
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Quotes",
+  "name": "Vancouver Quotes",
+  "description": "A beautiful quote screensaver app with multilingual support",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +22,22 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#3498db",
+  "background_color": "#1a1a2e",
+  "orientation": "portrait",
+  "categories": ["lifestyle", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Favorites",
+      "short_name": "Favorites",
+      "description": "View your favorite quotes",
+      "url": "/favorites"
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Configure app settings",
+      "url": "/settings"
+    }
+  ]
 }

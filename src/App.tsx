@@ -1,26 +1,35 @@
+// src/App.tsx
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import { QuotesProvider } from './context/QuotesContext';
+import { UserProvider } from './context/UserContext';
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
+import Settings from './pages/Settings';
+import NotFound from './pages/NotFound';
+import ManageQuotes from './pages/ManageQuotes';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <QuotesProvider>
+        <UserProvider>
+          <Router>
+            
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/manage" element={<ManageQuotes />} />
+            </Routes>
+          </Router>
+        </UserProvider>
+      </QuotesProvider>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
